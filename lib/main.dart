@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:max2_expence_tracker/transaction.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,13 +16,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
+  final List<Transaction> transactions = Transaction.getList();
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +40,20 @@ class MyHomePage extends StatelessWidget {
             ),
             elevation: 5,
           ),
-          Container(
-            width: double.infinity,
-            child: Card(
-              elevation: 5,
-              child: Text('List of Tx'),
-            ),
-          ),
+          // Container(
+          //   width: double.infinity,
+          //   child: Card(
+          //     elevation: 5,
+          //     child: Text('List of Tx'),
+          //   ),
+          // ),
+          Column(
+            children: transactions.map((transaction) {
+              return Card(
+                child: Text(transaction.title as String),
+              );
+            }).toList(),
+          )
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
