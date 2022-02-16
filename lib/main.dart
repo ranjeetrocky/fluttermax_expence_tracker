@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:max2_expence_tracker/transaction.dart';
 
 void main() {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
   final List<Transaction> transactions = Transaction.getList();
-
+  String? titleInput, amountInput;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +36,7 @@ class MyHomePage extends StatelessWidget {
         children: [
           Card(
             child: Container(
-              child: Text("Chart"),
+              child: Text("Chart!"),
               width: double.infinity,
             ),
             elevation: 5,
@@ -46,13 +47,62 @@ class MyHomePage extends StatelessWidget {
           //     elevation: 5,
           //     child: Text('List of Tx'),
           //   ),
-          // ),
-          Column(
-            children: transactions.map((transaction) {
-              return Card(
-                child: Text(transaction.title as String),
-              );
-            }).toList(),
+          // ),'
+          Card(
+            elevation: 5,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextField(
+                    decoration: InputDecoration(labelText: "Title"),
+                    onChanged: (value) {
+                      // print(value);
+                      titleInput = value;
+                    },
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: "Amount"),
+                    onChanged: (value) {
+                      // print(value);
+                      amountInput = value;
+                    },
+                  ),
+                  TextButton(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.purple),
+                        shadowColor: MaterialStateProperty.all(Colors.purple)),
+                    child: Text('Add Transaction'),
+                    onPressed: () {
+                      print(titleInput);
+                      print(amountInput);
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: transactions.map((transaction) {
+                  return Card(
+                    elevation: 5,
+                    child: ListTile(
+                      leading: Text(
+                        "₹ " + transaction.amount.toString(),
+                      ),
+                      title: Text(transaction.title as String),
+                      subtitle: Text(DateFormat('dd MMM, yyyy')
+                          .format(transaction.date as DateTime)),
+                      // subtitle: Text(transaction.date.toString().split(" ")[0]),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
           )
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
