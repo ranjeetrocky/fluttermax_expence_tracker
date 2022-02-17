@@ -15,10 +15,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Personal Expenses',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: MyHomePage(),
     );
@@ -46,72 +46,72 @@ class _MyHomePageState extends State<MyHomePage> {
       amount: 200,
       date: DateTime.now(),
     ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    )
+    // Transaction(
+    //   id: "t1",
+    //   title: "Soup",
+    //   amount: 200,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t1",
+    //   title: "Soup",
+    //   amount: 200,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t1",
+    //   title: "Soup",
+    //   amount: 200,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t1",
+    //   title: "Soup",
+    //   amount: 200,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t1",
+    //   title: "Soup",
+    //   amount: 200,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t1",
+    //   title: "Soup",
+    //   amount: 200,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t1",
+    //   title: "Soup",
+    //   amount: 200,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t1",
+    //   title: "Soup",
+    //   amount: 200,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t1",
+    //   title: "Soup",
+    //   amount: 200,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t1",
+    //   title: "Soup",
+    //   amount: 200,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "t1",
+    //   title: "Soup",
+    //   amount: 200,
+    //   date: DateTime.now(),
+    // )
   ];
 
   void _addNewTransaction({required String title, required double amount}) {
@@ -137,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Flutter App"),
+        title: const Text("Personal Expenses"),
         actions: [
           IconButton(
               onPressed: () => _showAddModal(context), icon: Icon(Icons.add))
