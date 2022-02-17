@@ -9,38 +9,48 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      child: ListView.builder(
-        itemCount: _transactionList.length,
-        itemBuilder: (context, index) {
-          print(index);
-          return Card(
-            elevation: 5,
-            child: ListTile(
-              leading: Text(
-                '₹ ${_transactionList[index].amount?.toStringAsFixed(2)}',
-              ),
-              title: Text(_transactionList[index].title as String),
-              subtitle: Text(DateFormat('dd MMM, yyyy')
-                  .format(_transactionList[index].date as DateTime)),
-              // subtitle: Text(transaction.date.toString().split(" ")[0]),
+      child: _transactionList.isEmpty
+          ? Column(
+              children: [
+                Text(
+                  "No Transactions added yet!",
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                Expanded(child: Image.asset("assets/images/waiting.png"))
+              ],
+            )
+          : ListView.builder(
+              itemCount: _transactionList.length,
+              itemBuilder: (context, index) {
+                print(index);
+                return Card(
+                  elevation: 5,
+                  child: ListTile(
+                    leading: Text(
+                      '₹ ${_transactionList[index].amount?.toStringAsFixed(2)}',
+                    ),
+                    title: Text(_transactionList[index].title as String),
+                    subtitle: Text(DateFormat('dd MMM, yyyy')
+                        .format(_transactionList[index].date as DateTime)),
+                    // subtitle: Text(transaction.date.toString().split(" ")[0]),
+                  ),
+                );
+              },
+              // children: _transactionList.map((transaction) {
+              //   return Card(
+              //     elevation: 5,
+              //     child: ListTile(
+              //       leading: Text(
+              //         "₹ " + transaction.amount.toString(),
+              //       ),
+              //       title: Text(transaction.title as String),
+              //       subtitle: Text(DateFormat('dd MMM, yyyy')
+              //           .format(transaction.date as DateTime)),
+              //       // subtitle: Text(transaction.date.toString().split(" ")[0]),
+              //     ),
+              //   );
+              // }).toList(),
             ),
-          );
-        },
-        // children: _transactionList.map((transaction) {
-        //   return Card(
-        //     elevation: 5,
-        //     child: ListTile(
-        //       leading: Text(
-        //         "₹ " + transaction.amount.toString(),
-        //       ),
-        //       title: Text(transaction.title as String),
-        //       subtitle: Text(DateFormat('dd MMM, yyyy')
-        //           .format(transaction.date as DateTime)),
-        //       // subtitle: Text(transaction.date.toString().split(" ")[0]),
-        //     ),
-        //   );
-        // }).toList(),
-      ),
     );
   }
 }
