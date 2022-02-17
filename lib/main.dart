@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void showAddModal(BuildContext context) {
+  void _showAddModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (_) {
@@ -140,11 +140,11 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text("Flutter App"),
         actions: [
           IconButton(
-              onPressed: () => showAddModal(context), icon: Icon(Icons.add))
+              onPressed: () => _showAddModal(context), icon: Icon(Icons.add))
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => showAddModal(context),
+        onPressed: () => _showAddModal(context),
         child: Icon(Icons.add),
       ),
       body: SingleChildScrollView(
