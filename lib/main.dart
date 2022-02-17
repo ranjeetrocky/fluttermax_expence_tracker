@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:max2_expence_tracker/transaction.dart';
+import 'package:max2_expence_tracker/widgets/new_transaction.dart';
+import 'package:max2_expence_tracker/widgets/transaction_list.dart';
+import './widgets/user_transactions.dart';
+import 'models/transaction.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -22,89 +25,149 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
-  final List<Transaction> transactions = Transaction.getList();
-  String? titleInput, amountInput;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _transactionList = [
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t1",
+      title: "Soup",
+      amount: 200,
+      date: DateTime.now(),
+    )
+  ];
+
+  void _addNewTransaction({required String title, required double amount}) {
+    final newTx = Transaction(
+        id: DateTime.now().toString(),
+        title: title,
+        amount: amount,
+        date: DateTime.now());
+    setState(() {
+      _transactionList.add(newTx);
+    });
+  }
+
+  void showAddModal(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) {
+          return NewTransaction(addTx: _addNewTransaction);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Flutter App"),
-      ),
-      body: Column(
-        children: [
-          Card(
-            child: Container(
-              child: Text("Chart!"),
-              width: double.infinity,
-            ),
-            elevation: 5,
-          ),
-          // Container(
-          //   width: double.infinity,
-          //   child: Card(
-          //     elevation: 5,
-          //     child: Text('List of Tx'),
-          //   ),
-          // ),'
-          Card(
-            elevation: 5,
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextField(
-                    decoration: InputDecoration(labelText: "Title"),
-                    onChanged: (value) {
-                      // print(value);
-                      titleInput = value;
-                    },
-                  ),
-                  TextField(
-                    decoration: InputDecoration(labelText: "Amount"),
-                    onChanged: (value) {
-                      // print(value);
-                      amountInput = value;
-                    },
-                  ),
-                  TextButton(
-                    style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.purple),
-                        shadowColor: MaterialStateProperty.all(Colors.purple)),
-                    child: Text('Add Transaction'),
-                    onPressed: () {
-                      print(titleInput);
-                      print(amountInput);
-                    },
-                  )
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: transactions.map((transaction) {
-                  return Card(
-                    elevation: 5,
-                    child: ListTile(
-                      leading: Text(
-                        "₹ " + transaction.amount.toString(),
-                      ),
-                      title: Text(transaction.title as String),
-                      subtitle: Text(DateFormat('dd MMM, yyyy')
-                          .format(transaction.date as DateTime)),
-                      // subtitle: Text(transaction.date.toString().split(" ")[0]),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          )
+        actions: [
+          IconButton(
+              onPressed: () => showAddModal(context), icon: Icon(Icons.add))
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => showAddModal(context),
+        child: Icon(Icons.add),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Card(
+              child: Container(
+                child: Text("Chart!"),
+                width: double.infinity,
+              ),
+              elevation: 5,
+            ),
+            // Container(
+            //   width: double.infinity,
+            //   child: Card(
+            //     elevation: 5,
+            //     child: Text('List of Tx'),
+            //   ),
+            // ),'
+            // UserTransactions()
+            TransactionList(_transactionList)
+          ],
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
