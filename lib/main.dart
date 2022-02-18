@@ -55,6 +55,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _showChart = false;
   final List<Transaction> _transactionList = List.generate(
     0,
     (index) {
@@ -136,6 +137,19 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Show Chart"),
+                Switch(
+                    value: _showChart,
+                    onChanged: (bool) {
+                      setState(() {
+                        _showChart = bool;
+                      });
+                    }),
+              ],
+            ),
             // Card(
             //   child: Container(
             //     child: const Text("Chart!"),
