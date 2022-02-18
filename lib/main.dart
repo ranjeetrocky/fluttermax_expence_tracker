@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:max2_expence_tracker/widgets/chart.dart';
@@ -134,10 +136,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     return Scaffold(
       appBar: appBar,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddModal(context),
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: Platform.isIOS
+          ? null
+          : FloatingActionButton(
+              onPressed: () => _showAddModal(context),
+              child: const Icon(Icons.add),
+            ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -146,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Show Chart"),
-                  Switch(
+                  Switch.adaptive(
                       value: _showChart,
                       onChanged: (newVal) {
                         setState(() {
