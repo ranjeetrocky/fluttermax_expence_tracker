@@ -171,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     return !Platform.isIOS
         ? CupertinoPageScaffold(
-            child: body,
+            child: SafeArea(child: body),
             navigationBar: CupertinoNavigationBar(
               middle: const Text("Personal Expenses"),
               trailing: GestureDetector(
