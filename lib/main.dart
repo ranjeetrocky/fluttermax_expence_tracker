@@ -53,7 +53,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool _showChart = false;
   final List<Transaction> _transactionList = List.generate(
-    0,
+    5,
     (index) {
       return Transaction(
         id: index.toString(),

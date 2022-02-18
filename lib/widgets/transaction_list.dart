@@ -10,6 +10,7 @@ class TransactionList extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    // print(MediaQuery.of(context).size.width);
     return Container(
       height: MediaQuery.of(context).size.height * 0.6,
       child: _transactionList.isEmpty
@@ -47,11 +48,23 @@ class TransactionList extends StatelessWidget {
                           ),
                         ),
                       ),
-                      trailing: IconButton(
-                        onPressed: () => deleteTransactionFunction(index),
-                        icon: Icon(Icons.delete_outline_rounded),
-                        color: Colors.red,
-                      ),
+                      trailing: MediaQuery.of(context).size.width > 440
+                          ? TextButton.icon(
+                              onPressed: () => deleteTransactionFunction(index),
+                              style: ButtonStyle(
+                                  overlayColor: MaterialStateProperty.all(
+                                      Theme.of(context)
+                                          .errorColor
+                                          .withAlpha(100)),
+                                  foregroundColor: MaterialStateProperty.all(
+                                      Theme.of(context).errorColor)),
+                              icon: const Icon(Icons.delete_outline_rounded),
+                              label: const Text("Delete"))
+                          : IconButton(
+                              onPressed: () => deleteTransactionFunction(index),
+                              icon: const Icon(Icons.delete_outline_rounded),
+                              color: Theme.of(context).errorColor,
+                            ),
                       // subtitle: Text(transaction.date.toString().split(" ")[0]),
                     ),
                   ),
