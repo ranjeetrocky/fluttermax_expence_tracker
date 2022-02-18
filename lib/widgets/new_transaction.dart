@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -50,6 +53,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
+    var isIOS = Platform.isIOS;
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.only(
@@ -88,13 +92,20 @@ class _NewTransactionState extends State<NewTransaction> {
                       ? 'No Date Chosen!'
                       : 'Picked Date : ${DateFormat('dd/MM/yyyy').format(_selectedDate as DateTime)}'),
                 ),
-                TextButton(
-                  onPressed: _showDatePicker,
-                  child: const Text(
-                    'Choose Date',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                )
+                isIOS
+                    ? CupertinoButton(
+                        onPressed: _showDatePicker,
+                        child: const Text(
+                          'Choose Date',
+                        ),
+                      )
+                    : TextButton(
+                        onPressed: _showDatePicker,
+                        child: const Text(
+                          'Choose Date',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      )
               ],
             ),
             ElevatedButton(
