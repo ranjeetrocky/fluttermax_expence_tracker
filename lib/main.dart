@@ -1,10 +1,10 @@
 import 'dart:io';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:max2_expence_tracker/widgets/chart.dart';
-import 'package:max2_expence_tracker/widgets/new_transaction.dart';
-import 'package:max2_expence_tracker/widgets/transaction_list.dart';
+import './widgets/chart.dart';
+import './widgets/new_transaction.dart';
+import './widgets/transaction_list.dart';
 import 'models/transaction.dart';
 import 'package:animations/animations.dart';
 
@@ -24,7 +24,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
         fontFamily: 'QuickSand',
-        cardTheme: CardTheme().copyWith(elevation: 20),
+        platform: TargetPlatform.iOS,
+        cardTheme: const CardTheme().copyWith(elevation: 20),
         textTheme: ThemeData.light().textTheme.copyWith(
               headline5: const TextStyle(
                   fontFamily: 'OpenSans',
@@ -119,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: const Icon(Icons.add))
       ],
     );
-    final txListWidget = Container(
+    final txListWidget = SizedBox(
       height: (mq.size.height - mq.padding.top - appBar.preferredSize.height) *
           (isLandscape ? 0.8 : 0.7),
       child: TransactionList(
@@ -134,48 +135,58 @@ class _MyHomePageState extends State<MyHomePage> {
         recentTransactions: _recentTxs,
       ),
     );
-    return Scaffold(
-      appBar: appBar,
-      floatingActionButton: Platform.isIOS
-          ? null
-          : FloatingActionButton(
-              onPressed: () => _showAddModal(context),
-              child: const Icon(Icons.add),
+    final body = SingleChildScrollView(
+      child: Column(
+        children: [
+          if (isLandscape)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Show Chart"),
+                Switch.adaptive(
+                    value: _showChart,
+                    onChanged: (newVal) {
+                      setState(() {
+                        _showChart = newVal;
+                      });
+                    }),
+              ],
             ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Show Chart"),
-                  Switch.adaptive(
-                      value: _showChart,
-                      onChanged: (newVal) {
-                        setState(() {
-                          _showChart = newVal;
-                        });
-                      }),
-                ],
-              ),
-            if (!isLandscape) ...[chartWidget, txListWidget],
-            if (isLandscape)
-              PageTransitionSwitcher(
-                  reverse: !_showChart,
-                  transitionBuilder:
-                      (child, primaryAnimation, secondaryAnimation) {
-                    return SharedAxisTransition(
-                      animation: primaryAnimation,
-                      secondaryAnimation: secondaryAnimation,
-                      transitionType: SharedAxisTransitionType.horizontal,
-                      child: child,
-                    );
-                  },
-                  child: _showChart ? chartWidget : txListWidget),
-          ],
-        ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+          if (!isLandscape) ...[chartWidget, txListWidget],
+          if (isLandscape)
+            PageTransitionSwitcher(
+                reverse: !_showChart,
+                transitionBuilder:
+                    (child, primaryAnimation, secondaryAnimation) {
+                  return SharedAxisTransition(
+                    animation: primaryAnimation,
+                    secondaryAnimation: secondaryAnimation,
+                    transitionType: SharedAxisTransitionType.horizontal,
+                    child: child,
+                  );
+                },
+                child: _showChart ? chartWidget : txListWidget),
+        ],
+      ),
     );
+    return !Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: body,
+            navigationBar: const CupertinoNavigationBar(
+              middle: Text("Personal Expenses"),
+              trailing: Icon(Icons.add),
+            ),
+          )
+        : Scaffold(
+            appBar: appBar,
+            floatingActionButton: Platform.isIOS
+                ? null
+                : FloatingActionButton(
+                    onPressed: () => _showAddModal(context),
+                    child: const Icon(Icons.add),
+                  ),
+            body:
+                body, // This trailing comma makes auto-formatting nicer for build methods.
+          );
   }
 }

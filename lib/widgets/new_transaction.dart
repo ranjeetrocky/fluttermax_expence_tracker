@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
-  NewTransaction({Key? key, required this.addTx}) : super(key: key);
+  const NewTransaction({Key? key, required this.addTx}) : super(key: key);
 
   @override
   State<NewTransaction> createState() => _NewTransactionState();
@@ -61,7 +61,7 @@ class _NewTransactionState extends State<NewTransaction> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
-              decoration: InputDecoration(labelText: "Title"),
+              decoration: const InputDecoration(labelText: "Title"),
               controller: _titleController,
               onSubmitted: (_) => FocusScope.of(context).requestFocus(focus),
 
@@ -71,7 +71,7 @@ class _NewTransactionState extends State<NewTransaction> {
               // },
             ),
             TextField(
-              decoration: InputDecoration(labelText: "Amount"),
+              decoration: const InputDecoration(labelText: "Amount"),
               controller: _amountController,
               keyboardType: TextInputType.number,
               onSubmitted: (_) => _submitData(),
@@ -98,7 +98,7 @@ class _NewTransactionState extends State<NewTransaction> {
               ],
             ),
             ElevatedButton(
-              child: Text('Add Transaction'),
+              child: const Text('Add Transaction'),
               onPressed: _submitData,
             )
           ],

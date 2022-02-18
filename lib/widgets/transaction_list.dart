@@ -12,7 +12,7 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
     // print(MediaQuery.of(context).size.width);
-    return Container(
+    return SizedBox(
       height: mq.size.height * 0.6,
       child: _transactionList.isEmpty
           ? Column(
@@ -28,7 +28,7 @@ class TransactionList extends StatelessWidget {
               itemBuilder: (context, index) {
                 // print(index);
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Card(
                     child: ListTile(
                       title: Text(_transactionList[index].title?.toUpperCase()
@@ -38,7 +38,7 @@ class TransactionList extends StatelessWidget {
                       leading: CircleAvatar(
                         radius: 30,
                         child: Padding(
-                          padding: EdgeInsets.all(6),
+                          padding: const EdgeInsets.all(6),
                           child: FittedBox(
                             child: Text(
                               '\$ ${_transactionList[index].amount?.toStringAsFixed(2)}',

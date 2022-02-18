@@ -38,11 +38,11 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     print(groupedTransactionValues);
     return Padding(
-      padding: EdgeInsets.only(top: 16, right: 16, left: 16),
+      padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
       child: Card(
         // margin: EdgeInsets.all(20),
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: groupedTransactionValues.map((data) {
