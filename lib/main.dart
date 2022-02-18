@@ -172,9 +172,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return !Platform.isIOS
         ? CupertinoPageScaffold(
             child: body,
-            navigationBar: const CupertinoNavigationBar(
-              middle: Text("Personal Expenses"),
-              trailing: Icon(Icons.add),
+            navigationBar: CupertinoNavigationBar(
+              middle: const Text("Personal Expenses"),
+              trailing: GestureDetector(
+                child: const Icon(Icons.add),
+                onTap: () => _showAddModal(context),
+              ),
             ),
           )
         : Scaffold(
