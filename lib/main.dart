@@ -103,8 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final mq = MediaQuery.of(context);
+    final isLandscape = mq.orientation == Orientation.landscape;
     final appBar = AppBar(
       title: const Text(
         "Personal Expenses",
@@ -117,9 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
     final txListWidget = Container(
-      height: (MediaQuery.of(context).size.height -
-              MediaQuery.of(context).padding.top -
-              appBar.preferredSize.height) *
+      height: (mq.size.height - mq.padding.top - appBar.preferredSize.height) *
           (isLandscape ? 0.8 : 0.7),
       child: TransactionList(
         _transactionList,
@@ -127,9 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
     final chartWidget = SizedBox(
-      height: (MediaQuery.of(context).size.height -
-              MediaQuery.of(context).padding.top -
-              appBar.preferredSize.height) *
+      height: (mq.size.height - mq.padding.top - appBar.preferredSize.height) *
           (isLandscape ? 0.8 : 0.3),
       child: Chart(
         recentTransactions: _recentTxs,
@@ -159,7 +155,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             if (!isLandscape) ...[chartWidget, txListWidget],
-            if (isLandscape) _showChart ? chartWidget : txListWidget,
+            if (isLandscape)
+              PageTransitionSwitcher(
+                  reverse: !_showChart,
+                  transitionBuilder:
+                      (child, primaryAnimation, secondaryAnimation) {
+                    return SharedAxisTransition(
+                      animation: primaryAnimation,
+                      secondaryAnimation: secondaryAnimation,
+                      transitionType: SharedAxisTransitionType.horizontal,
+                      child: child,
+                    );
+                  },
+                  child: _showChart ? chartWidget : txListWidget),
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.

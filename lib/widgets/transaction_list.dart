@@ -10,9 +10,10 @@ class TransactionList extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final mq = MediaQuery.of(context);
     // print(MediaQuery.of(context).size.width);
     return Container(
-      height: MediaQuery.of(context).size.height * 0.6,
+      height: mq.size.height * 0.6,
       child: _transactionList.isEmpty
           ? Column(
               children: [
@@ -48,7 +49,7 @@ class TransactionList extends StatelessWidget {
                           ),
                         ),
                       ),
-                      trailing: MediaQuery.of(context).size.width > 440
+                      trailing: mq.size.width > 440
                           ? TextButton.icon(
                               onPressed: () => deleteTransactionFunction(index),
                               style: ButtonStyle(
