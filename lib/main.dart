@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
         fontFamily: 'QuickSand',
+        cardTheme: CardTheme().copyWith(elevation: 20),
         textTheme: ThemeData.light().textTheme.copyWith(
               headline5: const TextStyle(
                   fontFamily: 'OpenSans',

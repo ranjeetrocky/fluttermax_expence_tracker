@@ -40,8 +40,6 @@ class Chart extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 16, right: 16, left: 16),
       child: Card(
-        elevation: 5,
-
         // margin: EdgeInsets.all(20),
         child: Padding(
           padding: EdgeInsets.all(16),

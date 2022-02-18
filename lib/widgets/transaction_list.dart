@@ -30,7 +30,6 @@ class TransactionList extends StatelessWidget {
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Card(
-                    elevation: 5,
                     child: ListTile(
                       title: Text(_transactionList[index].title?.toUpperCase()
                           as String),
