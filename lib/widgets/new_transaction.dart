@@ -26,6 +26,8 @@ class _NewTransactionState extends State<NewTransaction> {
     Navigator.of(context).pop();
   }
 
+  final focus = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -39,7 +41,8 @@ class _NewTransactionState extends State<NewTransaction> {
               decoration: InputDecoration(labelText: "Title"),
               controller: titleController,
               autofocus: true,
-              onSubmitted: (_) => submitData(),
+              onSubmitted: (_) => FocusScope.of(context).requestFocus(focus),
+
               // onChanged: (value) {
               //   // print(value);
               //   titleInput = value;
@@ -50,6 +53,7 @@ class _NewTransactionState extends State<NewTransaction> {
               controller: amountController,
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData(),
+              focusNode: focus,
               // onChanged: (value) {
               //   // print(value);
               //   amountInput = value;

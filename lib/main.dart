@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:max2_expence_tracker/widgets/chart.dart';
 import 'package:max2_expence_tracker/widgets/new_transaction.dart';
 import 'package:max2_expence_tracker/widgets/transaction_list.dart';
 import 'models/transaction.dart';
@@ -20,12 +22,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         fontFamily: 'QuickSand',
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline5: TextStyle(
+              headline5: const TextStyle(
                   fontFamily: 'OpenSans',
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold),
             ),
         appBarTheme: const AppBarTheme(
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarColor: Colors.transparent),
           titleTextStyle: TextStyle(
               fontFamily: 'OpenSans',
               fontSize: 20.0,
@@ -60,6 +64,15 @@ class _MyHomePageState extends State<MyHomePage> {
     //   date: DateTime.now(),
     // ),
   ];
+  List<Transaction> get _recentTxs {
+    return _transactionList.where((tx) {
+      return tx.date?.isAfter(
+        DateTime.now().subtract(
+          const Duration(days: 7),
+        ),
+      ) as bool;
+    }).toList();
+  }
 
   void _addNewTransaction({required String title, required double amount}) {
     final newTx = Transaction(
@@ -101,12 +114,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Card(
-              child: Container(
-                child: const Text("Chart!"),
-                width: double.infinity,
-              ),
-              elevation: 5,
+            // Card(
+            //   child: Container(
+            //     child: const Text("Chart!"),
+            //     width: double.infinity,
+            //   ),
+            //   elevation: 5,
+            // ),
+            Chart(
+              recentTransactions: _recentTxs,
             ),
             // Container(
             //   width: double.infinity,
