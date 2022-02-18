@@ -50,53 +50,59 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          TextField(
-            decoration: InputDecoration(labelText: "Title"),
-            controller: _titleController,
-            onSubmitted: (_) => FocusScope.of(context).requestFocus(focus),
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.only(
+            left: 10,
+            right: 10,
+            top: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            TextField(
+              decoration: InputDecoration(labelText: "Title"),
+              controller: _titleController,
+              onSubmitted: (_) => FocusScope.of(context).requestFocus(focus),
 
-            // onChanged: (value) {
-            //   // print(value);
-            //   titleInput = value;
-            // },
-          ),
-          TextField(
-            decoration: InputDecoration(labelText: "Amount"),
-            controller: _amountController,
-            keyboardType: TextInputType.number,
-            onSubmitted: (_) => _submitData(),
-            focusNode: focus,
-            // onChanged: (value) {
-            //   // print(value);
-            //   amountInput = value;
-            // },
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Text(_selectedDate == null
-                    ? 'No Date Chosen!'
-                    : 'Picked Date : ${DateFormat('dd/MM/yyyy').format(_selectedDate as DateTime)}'),
-              ),
-              TextButton(
-                onPressed: _showDatePicker,
-                child: const Text(
-                  'Choose Date',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+              // onChanged: (value) {
+              //   // print(value);
+              //   titleInput = value;
+              // },
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: "Amount"),
+              controller: _amountController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => _submitData(),
+              focusNode: focus,
+              // onChanged: (value) {
+              //   // print(value);
+              //   amountInput = value;
+              // },
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(_selectedDate == null
+                      ? 'No Date Chosen!'
+                      : 'Picked Date : ${DateFormat('dd/MM/yyyy').format(_selectedDate as DateTime)}'),
                 ),
-              )
-            ],
-          ),
-          ElevatedButton(
-            child: Text('Add Transaction'),
-            onPressed: _submitData,
-          )
-        ],
+                TextButton(
+                  onPressed: _showDatePicker,
+                  child: const Text(
+                    'Choose Date',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                )
+              ],
+            ),
+            ElevatedButton(
+              child: Text('Add Transaction'),
+              onPressed: _submitData,
+            )
+          ],
+        ),
       ),
     );
   }
