@@ -63,15 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     },
   );
-  // [
-  //   ,
-  //   Transaction(
-  //     id: "t1",
-  //     title: "Soup",
-  //     amount: 200,
-  //     date: DateTime.now(),
-  //   ),
-  // ];
   List<Transaction> get _recentTxs {
     return _transactionList.where((tx) {
       return tx.date?.isAfter(
@@ -110,20 +101,40 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  final appBar = AppBar(
-    title: const Text(
-      "Personal Expenses",
-      // style: TextStyle(fontFamily: "OpenSans"),
-    ),
-    centerTitle: true,
-    // actions: [
-    //   IconButton(
-    //       onPressed: () => _showAddModal(context), icon: const Icon(Icons.add))
-    // ],
-  );
-
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final appBar = AppBar(
+      title: const Text(
+        "Personal Expenses",
+        // style: TextStyle(fontFamily: "OpenSans"),
+      ),
+      actions: [
+        IconButton(
+            onPressed: () => _showAddModal(context),
+            icon: const Icon(Icons.add))
+      ],
+    );
+    final txListWidget = Container(
+      height: (MediaQuery.of(context).size.height -
+              MediaQuery.of(context).padding.top -
+              appBar.preferredSize.height) *
+          (isLandscape ? 0.8 : 0.7),
+      child: TransactionList(
+        _transactionList,
+        deleteTransactionFunction: _deleteTransaction,
+      ),
+    );
+    final chartWidget = SizedBox(
+      height: (MediaQuery.of(context).size.height -
+              MediaQuery.of(context).padding.top -
+              appBar.preferredSize.height) *
+          (isLandscape ? 0.8 : 0.3),
+      child: Chart(
+        recentTransactions: _recentTxs,
+      ),
+    );
     return Scaffold(
       appBar: appBar,
       floatingActionButton: FloatingActionButton(
@@ -133,66 +144,22 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Show Chart"),
-                Switch(
-                    value: _showChart,
-                    onChanged: (newVal) {
-                      setState(() {
-                        _showChart = newVal;
-                      });
-                    }),
-              ],
-            ),
-            // Card(
-            //   child: Container(
-            //     child: const Text("Chart!"),
-            //     width: double.infinity,
-            //   ),
-            //   elevation: 5,
-            // ),
-            PageTransitionSwitcher(
-              reverse: !_showChart,
-              transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
-                return SharedAxisTransition(
-                  child: child,
-                  animation: primaryAnimation,
-                  secondaryAnimation: secondaryAnimation,
-                  transitionType: SharedAxisTransitionType.horizontal,
-                );
-              },
-              child: _showChart
-                  ? SizedBox(
-                      height: (MediaQuery.of(context).size.height -
-                              MediaQuery.of(context).padding.top -
-                              appBar.preferredSize.height) *
-                          0.8,
-                      child: Chart(
-                        recentTransactions: _recentTxs,
-                      ),
-                    )
-                  :
-                  // Container(
-                  //   width: double.infinity,
-                  //   child: Card(
-                  //     elevation: 5,
-                  //     child: Text('List of Tx'),
-                  //   ),
-                  // ),'
-                  // UserTransactions()
-                  Container(
-                      height: (MediaQuery.of(context).size.height -
-                              MediaQuery.of(context).padding.top -
-                              appBar.preferredSize.height) *
-                          0.8,
-                      child: TransactionList(
-                        _transactionList,
-                        deleteTransactionFunction: _deleteTransaction,
-                      ),
-                    ),
-            )
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Show Chart"),
+                  Switch(
+                      value: _showChart,
+                      onChanged: (newVal) {
+                        setState(() {
+                          _showChart = newVal;
+                        });
+                      }),
+                ],
+              ),
+            if (!isLandscape) ...[chartWidget, txListWidget],
+            if (isLandscape) _showChart ? chartWidget : txListWidget,
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
