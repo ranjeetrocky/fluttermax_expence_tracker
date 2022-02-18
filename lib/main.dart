@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var isIOS = !Platform.isIOS;
+    var isIOS = Platform.isIOS;
     final mq = MediaQuery.of(context);
     final isLandscape = mq.orientation == Orientation.landscape;
     final appBar = AppBar(
