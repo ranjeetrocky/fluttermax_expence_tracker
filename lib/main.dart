@@ -50,20 +50,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactionList = [
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t1",
-      title: "Soup",
-      amount: 200,
-      date: DateTime.now(),
-    ),
-  ];
+  final List<Transaction> _transactionList = List.generate(
+    10,
+    (index) {
+      return Transaction(
+        id: index.toString(),
+        title: "Soup",
+        amount: 200,
+        date: DateTime.now(),
+      );
+    },
+  );
+  // [
+  //   ,
+  //   Transaction(
+  //     id: "t1",
+  //     title: "Soup",
+  //     amount: 200,
+  //     date: DateTime.now(),
+  //   ),
+  // ];
   List<Transaction> get _recentTxs {
     return _transactionList.where((tx) {
       return tx.date?.isAfter(
