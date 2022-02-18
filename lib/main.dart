@@ -108,20 +108,22 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  final appBar = AppBar(
+    title: const Text(
+      "Personal Expenses",
+      // style: TextStyle(fontFamily: "OpenSans"),
+    ),
+    centerTitle: true,
+    // actions: [
+    //   IconButton(
+    //       onPressed: () => _showAddModal(context), icon: const Icon(Icons.add))
+    // ],
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Personal Expenses",
-          // style: TextStyle(fontFamily: "OpenSans"),
-        ),
-        actions: [
-          IconButton(
-              onPressed: () => _showAddModal(context),
-              icon: const Icon(Icons.add))
-        ],
-      ),
+      appBar: appBar,
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddModal(context),
         child: const Icon(Icons.add),
@@ -136,8 +138,14 @@ class _MyHomePageState extends State<MyHomePage> {
             //   ),
             //   elevation: 5,
             // ),
-            Chart(
-              recentTransactions: _recentTxs,
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      appBar.preferredSize.height) *
+                  0.3,
+              child: Chart(
+                recentTransactions: _recentTxs,
+              ),
             ),
             // Container(
             //   width: double.infinity,
@@ -147,9 +155,15 @@ class _MyHomePageState extends State<MyHomePage> {
             //   ),
             // ),'
             // UserTransactions()
-            TransactionList(
-              _transactionList,
-              deleteTransactionFunction: _deleteTransaction,
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      appBar.preferredSize.height) *
+                  0.7,
+              child: TransactionList(
+                _transactionList,
+                deleteTransactionFunction: _deleteTransaction,
+              ),
             )
           ],
         ),
