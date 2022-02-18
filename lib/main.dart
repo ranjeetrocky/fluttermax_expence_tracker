@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,8 +34,10 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
         appBarTheme: const AppBarTheme(
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.light,
+          ),
           titleTextStyle: TextStyle(
               fontFamily: 'OpenSans',
               fontSize: 20.0,
@@ -107,6 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var isIOS = !Platform.isIOS;
     final mq = MediaQuery.of(context);
     final isLandscape = mq.orientation == Orientation.landscape;
     final appBar = AppBar(
@@ -142,7 +146,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Show Chart"),
+                Text(
+                  "Show Chart",
+                  style: CupertinoThemeData().textTheme.textStyle,
+                ),
                 Switch.adaptive(
                     value: _showChart,
                     onChanged: (newVal) {
@@ -169,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
-    return !Platform.isIOS
+    return isIOS
         ? CupertinoPageScaffold(
             child: SafeArea(child: body),
             navigationBar: CupertinoNavigationBar(
@@ -182,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         : Scaffold(
             appBar: appBar,
-            floatingActionButton: Platform.isIOS
+            floatingActionButton: isIOS
                 ? null
                 : FloatingActionButton(
                     onPressed: () => _showAddModal(context),
