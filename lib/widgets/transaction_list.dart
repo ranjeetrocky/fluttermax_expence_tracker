@@ -4,7 +4,10 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> _transactionList;
-  TransactionList(this._transactionList);
+  final Function deleteTransactionFunction;
+  const TransactionList(this._transactionList,
+      {Key? key, required this.deleteTransactionFunction})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,14 +34,28 @@ class TransactionList extends StatelessWidget {
                   child: Card(
                     elevation: 5,
                     child: ListTile(
-                      trailing: Text(
-                        '\$ ${_transactionList[index].amount?.toStringAsFixed(2)}',
-                        // '₹ ${_transactionList[index].amount?.toStringAsFixed(2)}',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      title: Text(_transactionList[index].title as String),
+                      title: Text(_transactionList[index].title?.toUpperCase()
+                          as String),
                       subtitle: Text(DateFormat('dd MMM, yyyy')
                           .format(_transactionList[index].date as DateTime)),
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: Padding(
+                          padding: EdgeInsets.all(6),
+                          child: FittedBox(
+                            child: Text(
+                              '\$ ${_transactionList[index].amount?.toStringAsFixed(2)}',
+                              // '₹ ${_transactionList[index].amount?.toStringAsFixed(2)}',
+                              // style: Theme.of(context).textTheme.headline6,
+                            ),
+                          ),
+                        ),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () => deleteTransactionFunction(index),
+                        icon: Icon(Icons.delete_outline_rounded),
+                        color: Colors.red,
+                      ),
                       // subtitle: Text(transaction.date.toString().split(" ")[0]),
                     ),
                   ),

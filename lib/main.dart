@@ -96,6 +96,12 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  void _deleteTransaction(int index) {
+    setState(() {
+      _transactionList.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
             //   ),
             // ),'
             // UserTransactions()
-            TransactionList(_transactionList)
+            TransactionList(
+              _transactionList,
+              deleteTransactionFunction: _deleteTransaction,
+            )
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
