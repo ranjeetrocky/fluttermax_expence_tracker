@@ -6,6 +6,11 @@ import 'package:max2_expence_tracker/widgets/transaction_list.dart';
 import 'models/transaction.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 
@@ -51,7 +56,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactionList = List.generate(
-    10,
+    0,
     (index) {
       return Transaction(
         id: index.toString(),
