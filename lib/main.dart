@@ -4,6 +4,7 @@ import 'package:max2_expence_tracker/widgets/chart.dart';
 import 'package:max2_expence_tracker/widgets/new_transaction.dart';
 import 'package:max2_expence_tracker/widgets/transaction_list.dart';
 import 'models/transaction.dart';
+import 'package:animations/animations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -140,12 +141,12 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Show Chart"),
+                const Text("Show Chart"),
                 Switch(
                     value: _showChart,
-                    onChanged: (bool) {
+                    onChanged: (newVal) {
                       setState(() {
-                        _showChart = bool;
+                        _showChart = newVal;
                       });
                     }),
               ],
@@ -157,32 +158,45 @@ class _MyHomePageState extends State<MyHomePage> {
             //   ),
             //   elevation: 5,
             // ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      appBar.preferredSize.height) *
-                  0.3,
-              child: Chart(
-                recentTransactions: _recentTxs,
-              ),
-            ),
-            // Container(
-            //   width: double.infinity,
-            //   child: Card(
-            //     elevation: 5,
-            //     child: Text('List of Tx'),
-            //   ),
-            // ),'
-            // UserTransactions()
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      appBar.preferredSize.height) *
-                  0.7,
-              child: TransactionList(
-                _transactionList,
-                deleteTransactionFunction: _deleteTransaction,
-              ),
+            PageTransitionSwitcher(
+              reverse: !_showChart,
+              transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+                return SharedAxisTransition(
+                  child: child,
+                  animation: primaryAnimation,
+                  secondaryAnimation: secondaryAnimation,
+                  transitionType: SharedAxisTransitionType.horizontal,
+                );
+              },
+              child: _showChart
+                  ? SizedBox(
+                      height: (MediaQuery.of(context).size.height -
+                              MediaQuery.of(context).padding.top -
+                              appBar.preferredSize.height) *
+                          0.8,
+                      child: Chart(
+                        recentTransactions: _recentTxs,
+                      ),
+                    )
+                  :
+                  // Container(
+                  //   width: double.infinity,
+                  //   child: Card(
+                  //     elevation: 5,
+                  //     child: Text('List of Tx'),
+                  //   ),
+                  // ),'
+                  // UserTransactions()
+                  Container(
+                      height: (MediaQuery.of(context).size.height -
+                              MediaQuery.of(context).padding.top -
+                              appBar.preferredSize.height) *
+                          0.8,
+                      child: TransactionList(
+                        _transactionList,
+                        deleteTransactionFunction: _deleteTransaction,
+                      ),
+                    ),
             )
           ],
         ),
