@@ -10,6 +10,7 @@ class TransactionList extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    print("build() TransactionList");
     final mq = MediaQuery.of(context);
     // print(MediaQuery.of(context).size.width);
     return SizedBox(

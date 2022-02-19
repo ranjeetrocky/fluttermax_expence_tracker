@@ -4,7 +4,9 @@ import 'package:max2_expence_tracker/models/transaction.dart';
 import 'package:max2_expence_tracker/widgets/chart_bar.dart';
 
 class Chart extends StatelessWidget {
-  const Chart({Key? key, required this.recentTransactions}) : super(key: key);
+  Chart({Key? key, required this.recentTransactions}) : super(key: key) {
+    print("Constructor Chart");
+  }
   final List<Transaction> recentTransactions;
   List<Map<String, Object>> get groupedTransactionValues {
     return List.generate(
@@ -36,7 +38,8 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(groupedTransactionValues);
+    // print(groupedTransactionValues);
+    print("build() Chart");
     return Padding(
       padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
       child: Card(

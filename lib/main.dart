@@ -110,6 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("build() Homepage");
     var isIOS = Platform.isIOS;
     final mq = MediaQuery.of(context);
     final isLandscape = mq.orientation == Orientation.landscape;
