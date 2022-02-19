@@ -82,8 +82,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     (index) {
       return Transaction(
         id: index.toString(),
-        title: "Soup",
-        amount: 200,
+        title: "Soup $index",
+        amount: 200 + index.toDouble(),
         date: DateTime.now(),
       );
     },

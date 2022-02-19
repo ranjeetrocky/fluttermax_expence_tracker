@@ -1,8 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
 
-class TransactionListItem extends StatelessWidget {
+class TransactionListItem extends StatefulWidget {
   const TransactionListItem({
     Key? key,
     required Transaction transaction,
@@ -16,30 +18,50 @@ class TransactionListItem extends StatelessWidget {
   final Function deleteTransactionFunction;
 
   @override
+  State<TransactionListItem> createState() => _TransactionListItemState();
+}
+
+class _TransactionListItemState extends State<TransactionListItem> {
+  Color? _bgColor;
+  @override
+  void initState() {
+    super.initState();
+    const availableColors = [
+      Colors.blue,
+      Colors.purple,
+      Colors.orange,
+      Colors.pink,
+      Colors.black,
+    ];
+    _bgColor = availableColors[Random().nextInt(5)];
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Card(
         child: ListTile(
-          title: Text(_transaction.title?.toUpperCase() as String),
-          subtitle: Text(
-              DateFormat('dd MMM, yyyy').format(_transaction.date as DateTime)),
+          title: Text(widget._transaction.title?.toUpperCase() as String),
+          subtitle: Text(DateFormat('dd MMM, yyyy')
+              .format(widget._transaction.date as DateTime)),
           leading: CircleAvatar(
+            backgroundColor: _bgColor,
             radius: 30,
             child: Padding(
               padding: const EdgeInsets.all(6),
               child: FittedBox(
                 child: Text(
-                  '\$ ${_transaction.amount?.toStringAsFixed(2)}',
+                  '\$ ${widget._transaction.amount?.toStringAsFixed(2)}',
                   // '₹ ${_transactionList.amount?.toStringAsFixed(2)}',
                   // style: Theme.of(context).textTheme.headline6,
                 ),
               ),
             ),
           ),
-          trailing: mq.size.width > 440
+          trailing: widget.mq.size.width > 440
               ? TextButton.icon(
-                  onPressed: () => deleteTransactionFunction(),
+                  onPressed: () => widget.deleteTransactionFunction(),
                   style: ButtonStyle(
                       overlayColor: MaterialStateProperty.all(
                           Theme.of(context).errorColor.withAlpha(100)),
@@ -48,7 +70,7 @@ class TransactionListItem extends StatelessWidget {
                   icon: const Icon(Icons.delete_outline_rounded),
                   label: const Text("Delete"))
               : IconButton(
-                  onPressed: () => deleteTransactionFunction(),
+                  onPressed: () => widget.deleteTransactionFunction(),
                   icon: const Icon(Icons.delete_outline_rounded),
                   color: Theme.of(context).errorColor,
                 ),
