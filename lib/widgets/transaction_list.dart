@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'transaction_list_item.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -28,63 +28,12 @@ class TransactionList extends StatelessWidget {
               itemCount: _transactionList.length,
               itemBuilder: (context, index) {
                 // print(index);
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Card(
-                    child: ListTile(
-                      title: Text(_transactionList[index].title?.toUpperCase()
-                          as String),
-                      subtitle: Text(DateFormat('dd MMM, yyyy')
-                          .format(_transactionList[index].date as DateTime)),
-                      leading: CircleAvatar(
-                        radius: 30,
-                        child: Padding(
-                          padding: const EdgeInsets.all(6),
-                          child: FittedBox(
-                            child: Text(
-                              '\$ ${_transactionList[index].amount?.toStringAsFixed(2)}',
-                              // '₹ ${_transactionList[index].amount?.toStringAsFixed(2)}',
-                              // style: Theme.of(context).textTheme.headline6,
-                            ),
-                          ),
-                        ),
-                      ),
-                      trailing: mq.size.width > 440
-                          ? TextButton.icon(
-                              onPressed: () => deleteTransactionFunction(index),
-                              style: ButtonStyle(
-                                  overlayColor: MaterialStateProperty.all(
-                                      Theme.of(context)
-                                          .errorColor
-                                          .withAlpha(100)),
-                                  foregroundColor: MaterialStateProperty.all(
-                                      Theme.of(context).errorColor)),
-                              icon: const Icon(Icons.delete_outline_rounded),
-                              label: const Text("Delete"))
-                          : IconButton(
-                              onPressed: () => deleteTransactionFunction(index),
-                              icon: const Icon(Icons.delete_outline_rounded),
-                              color: Theme.of(context).errorColor,
-                            ),
-                      // subtitle: Text(transaction.date.toString().split(" ")[0]),
-                    ),
-                  ),
-                );
+                return TransactionListItem(
+                    transaction: _transactionList[index],
+                    mq: mq,
+                    deleteTransactionFunction: () =>
+                        deleteTransactionFunction(index));
               },
-              // children: _transactionList.map((transaction) {
-              //   return Card(
-              //     elevation: 5,
-              //     child: ListTile(
-              //       leading: Text(
-              //         "₹ " + transaction.amount.toString(),
-              //       ),
-              //       title: Text(transaction.title as String),
-              //       subtitle: Text(DateFormat('dd MMM, yyyy')
-              //           .format(transaction.date as DateTime)),
-              //       // subtitle: Text(transaction.date.toString().split(" ")[0]),
-              //     ),
-              //   );
-              // }).toList(),
             ),
     );
   }
