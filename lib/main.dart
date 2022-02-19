@@ -108,6 +108,42 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<Widget> _buildLandscapeContent(chartWidget, txListWidget) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Show Chart",
+            style: CupertinoThemeData().textTheme.textStyle,
+          ),
+          Switch.adaptive(
+              value: _showChart,
+              onChanged: (newVal) {
+                setState(() {
+                  _showChart = newVal;
+                });
+              }),
+        ],
+      ),
+      PageTransitionSwitcher(
+          reverse: !_showChart,
+          transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+            return SharedAxisTransition(
+              animation: primaryAnimation,
+              secondaryAnimation: secondaryAnimation,
+              transitionType: SharedAxisTransitionType.horizontal,
+              child: child,
+            );
+          },
+          child: _showChart ? chartWidget : txListWidget)
+    ];
+  }
+
+  List<Widget> _buildPotraitContent(
+          SizedBox chartWidget, SizedBox txListWidget) =>
+      [chartWidget, txListWidget];
+
   @override
   Widget build(BuildContext context) {
     print("build() Homepage");
@@ -143,37 +179,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final body = SingleChildScrollView(
       child: Column(
         children: [
-          if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Show Chart",
-                  style: CupertinoThemeData().textTheme.textStyle,
-                ),
-                Switch.adaptive(
-                    value: _showChart,
-                    onChanged: (newVal) {
-                      setState(() {
-                        _showChart = newVal;
-                      });
-                    }),
-              ],
-            ),
-          if (!isLandscape) ...[chartWidget, txListWidget],
-          if (isLandscape)
-            PageTransitionSwitcher(
-                reverse: !_showChart,
-                transitionBuilder:
-                    (child, primaryAnimation, secondaryAnimation) {
-                  return SharedAxisTransition(
-                    animation: primaryAnimation,
-                    secondaryAnimation: secondaryAnimation,
-                    transitionType: SharedAxisTransitionType.horizontal,
-                    child: child,
-                  );
-                },
-                child: _showChart ? chartWidget : txListWidget),
+          if (isLandscape) ..._buildLandscapeContent(chartWidget, txListWidget),
+          if (!isLandscape) ..._buildPotraitContent(chartWidget, txListWidget),
         ],
       ),
     );
