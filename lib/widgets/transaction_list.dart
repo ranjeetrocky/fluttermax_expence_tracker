@@ -24,16 +24,28 @@ class TransactionList extends StatelessWidget {
                 Expanded(child: Image.asset("assets/images/waiting.png"))
               ],
             )
-          : ListView.builder(
-              itemCount: _transactionList.length,
-              itemBuilder: (context, index) {
-                // print(index);
-                return TransactionListItem(
-                    transaction: _transactionList[index],
-                    mq: mq,
-                    deleteTransactionFunction: () =>
-                        deleteTransactionFunction(index));
-              },
+          // : ListView.builder(
+          //     itemCount: _transactionList.length,
+          //     itemBuilder: (context, index) {
+          //       // print(index);
+          //       return TransactionListItem(
+          //           key: ValueKey(_transactionList[index].id),
+          //           transaction: _transactionList[index],
+          //           mq: mq,
+          //           deleteTransactionFunction: () =>
+          //               deleteTransactionFunction(_transactionList[index].id));
+          //     },
+          //   ),
+          // cause listview has bug issues with keys and cant remember it
+          : ListView(
+              children: _transactionList
+                  .map((tx) => TransactionListItem(
+                      key: ValueKey(tx.id),
+                      transaction: tx,
+                      mq: mq,
+                      deleteTransactionFunction: () =>
+                          deleteTransactionFunction(tx.id)))
+                  .toList(),
             ),
     );
   }
